@@ -11,9 +11,8 @@ import background from './assets/cvrsbg.png';
 
 import {z} from 'zod';
 
-export const myCompSchema = z.object({
-	titleText: z.string(),
-	subText: z.string(),
+export const disclaimerSchema = z.object({
+	disclaimerText: z.string(),
 });
 
 const {fontFamily} = loadFont();
@@ -30,14 +29,16 @@ const title: React.CSSProperties = {
 const text: React.CSSProperties = {
 	fontWeight: 100,
 	fontFamily,
-	fontSize: 60,
+	fontSize: 50,
+	maxWidth: '80%',
 	color: 'white',
 	marginTop: 0,
+	textAlign: 'center',
 };
 
-const disappearBeforeEnd = 20;
+const disappearBeforeEnd = 30;
 
-export const Overlay: React.FC<z.infer<typeof myCompSchema>> = ({titleText, subText}) => {
+export const Disclaimer: React.FC<z.infer<typeof disclaimerSchema>> = ({disclaimerText	}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -59,34 +60,36 @@ export const Overlay: React.FC<z.infer<typeof myCompSchema>> = ({titleText, subT
 	});
 
 	const rotate = interpolate(out, [0, 1], [0, -Math.PI / 20]);
-	const outY = interpolate(out, [0, 1], [0, -500]);
+// write a fade out animation for the disclaimer
+	const outY = interpolate(out, [0, 1], [1, 0]);
 
-	const clip = interpolate(frame * 10, [0, 100], [0, 100]);
+
+
 
 	const container: React.CSSProperties = useMemo(() => {
 		return {
 			position: 'absolute',
 			backgroundImage: `url(${background})`,
 			borderRadius: 25,
-			right: 90,
-			top: 90,
-			scale: String(scale),
-			translate: `0 ${outY}px`,
-			rotate: `${rotate}rad`,
+			right: 0,
+			top: 0,
+			left: 0,
+			bottom: 0,
 			padding: 5,
 			paddingLeft: 40,
 			paddingRight: 40,
 			paddingBottom: 10,
-			borderLeft: `20px solid #db2323`,
-			clipPath: `polygon(0 0, ${String(clip)}% 0, ${clip}% 100%, 0 100%)`,
+			opacity: outY,
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
 		};
-	}, [scale, outY, rotate]);
+	}, [outY]);
 
 	return (
 		<AbsoluteFill>
 			<div style={container}>
-				<div style={title}>{titleText}</div>
-				<div style={text}>{subText}</div>
+				<div style={text}>{disclaimerText}</div>
 			</div>
 		</AbsoluteFill>
 	);

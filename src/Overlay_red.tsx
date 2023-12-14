@@ -7,11 +7,11 @@ import {
 } from 'remotion';
 import React, {useMemo} from 'react';
 import {loadFont} from '@remotion/google-fonts/Oswald';
-import background from './assets/cvrsbg.png';
+import background from './assets/cvrsbgred.png';
 
 import {z} from 'zod';
 
-export const myCompSchema = z.object({
+export const myCompSchema_red = z.object({
 	titleText: z.string(),
 	subText: z.string(),
 });
@@ -28,16 +28,16 @@ const title: React.CSSProperties = {
 };
 
 const text: React.CSSProperties = {
-	fontWeight: 100,
+	fontWeight: 'sembiBold',
 	fontFamily,
-	fontSize: 60,
+	fontSize: 80,
 	color: 'white',
 	marginTop: 0,
 };
 
 const disappearBeforeEnd = 20;
 
-export const Overlay: React.FC<z.infer<typeof myCompSchema>> = ({titleText, subText}) => {
+export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleText, subText}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -60,6 +60,7 @@ export const Overlay: React.FC<z.infer<typeof myCompSchema>> = ({titleText, subT
 
 	const rotate = interpolate(out, [0, 1], [0, -Math.PI / 20]);
 	const outY = interpolate(out, [0, 1], [0, -500]);
+	
 
 	const clip = interpolate(frame * 10, [0, 100], [0, 100]);
 
@@ -77,7 +78,7 @@ export const Overlay: React.FC<z.infer<typeof myCompSchema>> = ({titleText, subT
 			paddingLeft: 40,
 			paddingRight: 40,
 			paddingBottom: 10,
-			borderLeft: `20px solid #db2323`,
+			borderRight: `20px solid #db2323`,
 			clipPath: `polygon(0 0, ${String(clip)}% 0, ${clip}% 100%, 0 100%)`,
 		};
 	}, [scale, outY, rotate]);
