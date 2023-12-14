@@ -68,7 +68,7 @@ export const Overlay2: React.FC<z.infer<typeof myCompSchema2>> = ({
 		});
 
 		// clip = interpolate(frame * 10 + 30, [0, 100], [0, 100]);
-	}
+	}   
 	const out = spring({
 		fps,
 		frame: frame - durationInFrames + disappearBeforeEnd,
