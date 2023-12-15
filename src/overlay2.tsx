@@ -17,8 +17,9 @@ export type MyComponentPropsOverlay = z.infer<typeof myCompSchema2>;
 export const myCompSchema2 = z.object({
 	titleText: z.string(),
 	subText: z.string(),
-    durationInSeconds: z.number(),
+    startDelayInSeconds: z.number(),
     endDelayInSeconds: z.number(),
+    durationInSeconds: z.number(),
 });
 
 const {fontFamily} = loadFont();
@@ -45,25 +46,27 @@ export const Overlay2: React.FC<z.infer<typeof myCompSchema2>> = ({
 	titleText,
 	subText,
     endDelayInSeconds,
+    startDelayInSeconds,
 }) => {
 
     const disappearBeforeEnd = Number(endDelayInSeconds * 30);
+    const appearAfterStart = Number(startDelayInSeconds * 30);
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
 	let scale: any;
 	let clip: number;
 
-	if (frame < 20) {
+	if (frame < 20 + appearAfterStart) {
 		scale = spring({
 			fps,
-			frame,
+			frame: frame - appearAfterStart,
 			config: {
 				mass: 0.5,
 			},
 		});
 
-		clip = interpolate(frame * 10, [0, 100], [100, 0]);
+		clip = interpolate((frame - appearAfterStart) * 10, [0, 100], [100, 0]);
 	}
 	// reverse the scale for the last 20 frames
 	else {

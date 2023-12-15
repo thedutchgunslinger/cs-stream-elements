@@ -10,7 +10,7 @@ const calculateMetadataOverlay: CalculateMetadataFunction<MyComponentPropsOverla
 }) => {
 	return {
 		// Change the metadata
-		durationInFrames: props.durationInSeconds * 30 + props.endDelayInSeconds * 30,
+		durationInFrames: props.durationInSeconds * 30 + props.endDelayInSeconds * 30 + props.startDelayInSeconds * 30,
 		// or transform some props
 		props,
 		// or add per-composition default codec
@@ -25,7 +25,9 @@ const calculateMetadataOverlayRed: CalculateMetadataFunction<
 	return {
 		// Change the metadata
 		durationInFrames:
-			props.durationInSeconds * 30 + props.endDelayInSeconds * 30,
+			props.durationInSeconds * 30 +
+			props.endDelayInSeconds * 30 +
+			props.startDelayInSeconds * 30,
 
 		// or transform some props
 		props,
@@ -49,6 +51,7 @@ export const RemotionRoot: React.FC = () => {
 					subText: 'Link is in the description!',
 					endDelayInSeconds: 30,
 					durationInSeconds: 5,
+					startDelayInSeconds: 0,
 				}}
 			/>
 			<Composition
@@ -65,6 +68,7 @@ export const RemotionRoot: React.FC = () => {
 					subText: 'an active NDA',
 					endDelayInSeconds: 30,
 					durationInSeconds: 5,
+					startDelayInSeconds: 3,
 				}}
 			/>
 			<Composition

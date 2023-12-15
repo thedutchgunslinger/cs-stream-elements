@@ -14,8 +14,9 @@ import {z} from 'zod';
 export const myCompSchema_red = z.object({
 	titleText: z.string(),
 	subText: z.string(),
-	durationInSeconds: z.number(),
+	startDelayInSeconds: z.number(),
 	endDelayInSeconds: z.number(),
+	durationInSeconds: z.number(),
 });
 
 export type MyComponentPropsOverlayRed = z.infer<typeof myCompSchema_red>;
@@ -40,15 +41,16 @@ const text: React.CSSProperties = {
 };
 
 
-export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleText, subText, endDelayInSeconds}) => {
+export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleText, subText, endDelayInSeconds, startDelayInSeconds}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 	const disappearBeforeEnd = endDelayInSeconds * 30;
+	 const appearAfterStart = Number(startDelayInSeconds * 30);
 
 
 	const scale = spring({
 		fps,
-		frame,
+		frame: frame - appearAfterStart,
 		config: {
 			mass: 0.5,
 		},
@@ -67,7 +69,7 @@ export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleTe
 	const outY = interpolate(out, [0, 1], [0, -500]);
 	
 
-	const clip = interpolate(frame * 10, [0, 100], [0, 100]);
+	const clip = interpolate((frame - appearAfterStart) * 10, [0, 100], [0, 100]);
 
 	const container: React.CSSProperties = useMemo(() => {
 		return {
