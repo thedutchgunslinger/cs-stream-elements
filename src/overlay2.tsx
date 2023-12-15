@@ -12,9 +12,13 @@ import cross from './assets/cross.png';
 
 import {z} from 'zod';
 
+export type MyComponentPropsOverlay = z.infer<typeof myCompSchema2>;
+
 export const myCompSchema2 = z.object({
 	titleText: z.string(),
 	subText: z.string(),
+    durationInSeconds: z.number(),
+    endDelayInSeconds: z.number(),
 });
 
 const {fontFamily} = loadFont();
@@ -33,13 +37,17 @@ const text: React.CSSProperties = {
 	color: 'white',
 	marginTop: 0,
 };
+// use this to make the overlay disappear before the end using the endDelay prop
 
-const disappearBeforeEnd = 20;
+// 
 
 export const Overlay2: React.FC<z.infer<typeof myCompSchema2>> = ({
 	titleText,
 	subText,
+    endDelayInSeconds,
 }) => {
+
+    const disappearBeforeEnd = Number(endDelayInSeconds * 30);
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 

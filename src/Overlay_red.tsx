@@ -14,7 +14,11 @@ import {z} from 'zod';
 export const myCompSchema_red = z.object({
 	titleText: z.string(),
 	subText: z.string(),
+	durationInSeconds: z.number(),
+	endDelayInSeconds: z.number(),
 });
+
+export type MyComponentPropsOverlayRed = z.infer<typeof myCompSchema_red>;
 
 const {fontFamily} = loadFont();
 
@@ -35,11 +39,12 @@ const text: React.CSSProperties = {
 	marginTop: 0,
 };
 
-const disappearBeforeEnd = 20;
 
-export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleText, subText}) => {
+export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleText, subText, endDelayInSeconds}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
+	const disappearBeforeEnd = endDelayInSeconds * 30;
+
 
 	const scale = spring({
 		fps,
@@ -55,7 +60,7 @@ export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleTe
 		config: {
 			damping: 200,
 		},
-		durationInFrames: disappearBeforeEnd,
+		// durationInFrames: disappearBeforeEnd,
 	});
 
 	const rotate = interpolate(out, [0, 1], [0, -Math.PI / 20]);
@@ -80,6 +85,7 @@ export const Overlay_red: React.FC<z.infer<typeof myCompSchema_red>> = ({titleTe
 			paddingBottom: 10,
 			borderRight: `20px solid #db2323`,
 			clipPath: `polygon(0 0, ${String(clip)}% 0, ${clip}% 100%, 0 100%)`,
+			opacity: 0.9,
 		};
 	}, [scale, outY, rotate]);
 

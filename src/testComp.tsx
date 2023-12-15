@@ -8,10 +8,12 @@ import {
 import React, {useMemo} from 'react';
 import {loadFont} from '@remotion/google-fonts/Oswald';
 import background from './assets/cvrsbg.png';
+import {Animated, Move, Scale, } from 'remotion-animated';
+
 
 import {z} from 'zod';
 
-export const disclaimerSchema = z.object({
+export const testSchema = z.object({
 	disclaimerText: z.string(),
 });
 
@@ -38,7 +40,7 @@ const text: React.CSSProperties = {
 
 const disappearBeforeEnd = 30;
 
-export const Disclaimer: React.FC<z.infer<typeof disclaimerSchema>> = ({disclaimerText	}) => {
+export const testComp: React.FC<z.infer<typeof testSchema>> = ({disclaimerText	}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -89,7 +91,14 @@ export const Disclaimer: React.FC<z.infer<typeof disclaimerSchema>> = ({disclaim
 	return (
 		<AbsoluteFill>
 			<div style={container}>
-				<div style={text}>{disclaimerText}</div>
+				<Animated animations={[
+				
+					Move({x: 0, start: 1500, duration: 30}),
+					Scale({by: 3, start: 10, duration: 30}),
+
+					]}>
+					<div style={text}>{disclaimerText}</div>
+				</Animated>
 			</div>
 		</AbsoluteFill>
 	);
