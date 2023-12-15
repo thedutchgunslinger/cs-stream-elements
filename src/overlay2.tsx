@@ -7,8 +7,8 @@ import {
 } from 'remotion';
 import React, {useMemo} from 'react';
 import {loadFont} from '@remotion/google-fonts/Oswald';
-import background from './assets/cvrsbg.png';
-import cross from './assets/cross.png';
+import background from '../public/cvrsbg.png';
+import cross from '../public/cross.png';
 
 import {z} from 'zod';
 
@@ -115,6 +115,7 @@ export const Overlay2: React.FC<z.infer<typeof myCompSchema2>> = ({
 				clip
 			)}% 100%)`,
             opacity: 0.9,
+            
 		};
 	}, [scale, outY, rotate]);
 

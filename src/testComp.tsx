@@ -7,7 +7,7 @@ import {
 } from 'remotion';
 import React, {useMemo} from 'react';
 import {loadFont} from '@remotion/google-fonts/Oswald';
-import background from './assets/cvrsbg.png';
+import background from '../public/cvrsbg.png';
 import {Animated, Move, Scale, } from 'remotion-animated';
 
 
